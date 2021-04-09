@@ -3,14 +3,17 @@ import React from 'react';
 const ListDisplay = (props) => {
     var searching = false
     if (props.filterFunction !== null) {
-        var listToDisplay = props.filterFunction();
         searching = true;
+        var listToDisplay = props.filterFunction();
     } else {
         var listToDisplay = props.movieList;
     }
 
     if (listToDisplay.length === 0) {
-        return (<div>No movie by that name found</div>)
+        return (<div>
+                    <button onClick={props.removeFilter} >Show All Movies</button>
+                    <div>No movie by that name found</div>
+                </div>)
     }
 
     if (searching) { return (

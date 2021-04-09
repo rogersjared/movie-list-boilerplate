@@ -1,6 +1,7 @@
 import React from 'react';
 import ListDisplay from './ListDisplay.jsx';
 import SearchBar from './SearchBar.jsx';
+import AddMovie from './AddMovie.jsx';
 
 var exampleData = [
   {title: 'Mean Girls', id: 1},
@@ -17,13 +18,16 @@ class App extends React.Component {
     this.state = {
       movieList: exampleData,
       displayFilter: null, //filter functions assigned here should be wrapped and already have parameters input. Output array of movie(s)
-      searchBarText: ''
+      searchBarText: '',
+      addMovieTitle: ''
     }
     //BIND FUNCS
     this.resetSearchBarText = this.resetSearchBarText.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.removeFilterFunction = this.removeFilterFunction.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.resetAddMovieText = this.resetAddMovieText.bind(this);
   }
 
   
@@ -46,6 +50,19 @@ class App extends React.Component {
       displayFilter: ()=>{return this.searchForTitle(this.state.movieList, searchEntry)}
     }, ()=>{this.resetSearchBarText(); console.log('text was reset')})
   }
+
+  handleAdd(event) {
+    event.preventDefault();
+    var currentList = this.state.movieList.slice();
+    var newMovie = {
+      title: this.state.addMovieTitle,
+      id: (this.state.movieList[this.state.movieList.length -1].id) + 1
+    }
+    currentList.push(newMovie);
+    this.setState({
+      movieList: currentList
+    }, this.resetAddMovieText)
+  }
   
 
 
@@ -54,6 +71,12 @@ class App extends React.Component {
   resetSearchBarText () {
     this.setState({
       searchBarText: ''
+    })
+  }
+
+  resetAddMovieText () {
+    this.setState({
+      addMovieTitle: ''
     })
   }
 
@@ -66,15 +89,16 @@ class App extends React.Component {
 
   //////////// FILTER FUNCTIONS ////////////////
   searchForTitle (movieList, searchEntry) {
-    var matches = [];
-    movieList.forEach((movie) => {
-      var lcTitle = movie.title.toLowerCase();
-      var lcSearch = searchEntry.toLowerCase();
-      if (lcTitle.includes(lcSearch)) {
-        matches.push(movie);
-      }
-    })
-    return matches;
+
+      var matches = [];
+      movieList.forEach((movie) => {
+        var lcTitle = movie.title.toLowerCase();
+        var lcSearch = searchEntry.toLowerCase();
+        if (lcTitle.includes(lcSearch)) {
+          matches.push(movie);
+        }
+      })
+      return matches;
   }
 
 
@@ -84,6 +108,7 @@ class App extends React.Component {
   render() {
     return (
       <div>~~MOVIES~~
+        <AddMovie handleChange={this.handleChange} textEntry={this.state.addMovieTitle} add={this.handleAdd} />
         <SearchBar handleChange={this.handleChange} handleSearch={this.handleSearch} textEntry={this.state.searchBarText} />
         <ListDisplay movieList={this.state.movieList} filterFunction={this.state.displayFilter} removeFilter={this.removeFilterFunction} />
       </div>
