@@ -1,6 +1,8 @@
 import React from 'react';
+import MovieEntry from './MovieEntry.jsx';
 
 const ListDisplay = (props) => {
+    console.log('props in display', props)
     var searching = false
     if (props.filterFunction !== null) {
         searching = true;
@@ -21,7 +23,7 @@ const ListDisplay = (props) => {
             <button onClick={props.removeFilter} >Show All Movies</button>
             <ul>
                 {listToDisplay.map((movie) => (
-                    <li key={movie.id}>{movie.title}</li>
+                    <MovieEntry movie={movie} toggleWatched={props.toggleWatched} />
                 ))}
             </ul>
         </div>
@@ -31,7 +33,7 @@ const ListDisplay = (props) => {
     return (
         <ul>
             {listToDisplay.map((movie) => (
-                <li key={movie.id}>{movie.title}</li>
+                <MovieEntry movie={movie} toggleWatched={props.toggleWatched} />
             ))}
         </ul>
     )

@@ -4,11 +4,11 @@ import SearchBar from './SearchBar.jsx';
 import AddMovie from './AddMovie.jsx';
 
 var exampleData = [
-  {title: 'Mean Girls', id: 1},
-  {title: 'Hackers', id: 2},
-  {title: 'The Grey', id: 3},
-  {title: 'Sunshine', id: 4},
-  {title: 'Ex Machina', id: 5},
+  {title: 'Mean Girls', id: 1, watched: false},
+  {title: 'Hackers', id: 2, watched: false},
+  {title: 'The Grey', id: 3, watched: false},
+  {title: 'Sunshine', id: 4, watched: false},
+  {title: 'Ex Machina', id: 5, watched: false}
 ];
 
 
@@ -28,6 +28,7 @@ class App extends React.Component {
     this.removeFilterFunction = this.removeFilterFunction.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.resetAddMovieText = this.resetAddMovieText.bind(this);
+    this.toggleWatched = this.toggleWatched.bind(this);
   }
 
   
@@ -64,7 +65,15 @@ class App extends React.Component {
     }, this.resetAddMovieText)
   }
   
-
+  toggleWatched(event) {
+    event.preventDefault();
+    var currentList = this.state.movieList.slice();
+    var target = currentList[event.target.value - 1];
+    target.watched = !target.watched;
+    this.setState({
+      movieList: currentList
+    }, ()=>{console.log('after swap', this.state.movieList)})
+  }
 
 
   ////////////Helper FUNCTIONS//////////////////
@@ -110,7 +119,7 @@ class App extends React.Component {
       <div>~~MOVIES~~
         <AddMovie handleChange={this.handleChange} textEntry={this.state.addMovieTitle} add={this.handleAdd} />
         <SearchBar handleChange={this.handleChange} handleSearch={this.handleSearch} textEntry={this.state.searchBarText} />
-        <ListDisplay movieList={this.state.movieList} filterFunction={this.state.displayFilter} removeFilter={this.removeFilterFunction} />
+        <ListDisplay movieList={this.state.movieList} filterFunction={this.state.displayFilter} removeFilter={this.removeFilterFunction} toggleWatched={this.toggleWatched} />
       </div>
     )
   }
