@@ -19,7 +19,8 @@ class App extends React.Component {
       movieList: exampleData,
       displayFilter: null, //filter functions assigned here should be wrapped and already have parameters input. Output array of movie(s)
       searchBarText: '',
-      addMovieTitle: ''
+      addMovieTitle: '',
+      displayWatch: {watched: false, toWatch: false}
     }
     //BIND FUNCS
     this.resetSearchBarText = this.resetSearchBarText.bind(this);
@@ -118,7 +119,7 @@ class App extends React.Component {
     return (
       <div>~~MOVIES~~
         <AddMovie handleChange={this.handleChange} textEntry={this.state.addMovieTitle} add={this.handleAdd} />
-        <SearchBar handleChange={this.handleChange} handleSearch={this.handleSearch} textEntry={this.state.searchBarText} />
+        <SearchBar handleChange={this.handleChange} handleSearch={this.handleSearch} textEntry={this.state.searchBarText} displayWatch={this.state.displayWatch}/>
         <ListDisplay movieList={this.state.movieList} filterFunction={this.state.displayFilter} removeFilter={this.removeFilterFunction} toggleWatched={this.toggleWatched} />
       </div>
     )

@@ -2,7 +2,6 @@ import React from 'react';
 import MovieEntry from './MovieEntry.jsx';
 
 const ListDisplay = (props) => {
-    console.log('props in display', props)
     var searching = false
     if (props.filterFunction !== null) {
         searching = true;
